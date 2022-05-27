@@ -5,9 +5,13 @@ plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm' version '1.6.21'
     id 'org.jetbrains.intellij' version '1.5.3'     // https://github.com/JetBrains/gradle-intellij-plugin/releases
-    id 'com.jetbrains.rdgen' version '0.213.394'    // https://www.myget.org/feed/rd-snapshots/package/maven/com.jetbrains.rd/rd-gen
+    id 'com.jetbrains.rdgen' version '0.213.394'
+    // https://www.myget.org/feed/rd-snapshots/package/maven/com.jetbrains.rd/rd-gen
     id 'me.filippov.gradle.jvm.wrapper' version '0.10.0'
 }
+
+apply from: 'src/rider/main/java/build.gradle'
+
 
 ext {
     isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
@@ -52,7 +56,7 @@ task setBuildTool {
         if (isWindows) {
             exec {
                 executable "${rootDir}\\tools\\vswhere.exe"
-                args '-latest','-property','installationPath','-products','*'
+                args '-latest', '-property', 'installationPath', '-products', '*'
                 standardOutput = stdout
                 workingDir rootDir
             }
@@ -133,7 +137,7 @@ runIde {
 rdgen {
     def modelDir = new File(rootDir, "protocol/src/main/kotlin/model")
     def csOutput = new File(rootDir, "src/dotnet/${DotnetPluginId}/Rider")
-    def ktOutput = new File(rootDir, "src/rider/main/kotlin/${RiderPluginId.replace('.','/').toLowerCase()}")
+    def ktOutput = new File(rootDir, "src/rider/main/kotlin/${RiderPluginId.replace('.', '/').toLowerCase()}")
 
     verbose = true
     classpath {
@@ -200,7 +204,7 @@ publishPlugin {
     doLast {
         exec {
             executable "dotnet"
-            args "nuget","push","output/${DotnetPluginId}.${version}.nupkg","--api-key","${PublishToken}","--source","https://plugins.jetbrains.com"
+            args "nuget", "push", "output/${DotnetPluginId}.${version}.nupkg", "--api-key", "${PublishToken}", "--source", "https://plugins.jetbrains.com"
             workingDir rootDir
         }
     }

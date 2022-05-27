@@ -7,10 +7,12 @@ import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBList;
+import com.nanoframework.plugin.rider.serial.SerialPortWrapper;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class NFToolWindow extends SimpleToolWindowPanel {
     private final JBList<Pair<String, String>> _deviceList;
@@ -58,13 +60,40 @@ public class NFToolWindow extends SimpleToolWindowPanel {
         });
         topPanel.add(b3);
 
-        ArrayList<Pair<String, String>> data = new ArrayList<>();
-        data.add(new Pair<>("key1", "val1"));
-        data.add(new Pair<>("key2", "val2"));
-        data.add(new Pair<>("key3", "val3"));
 
-        _deviceList = new JBList<>(data);
+        _deviceList = new JBList<>();
         _deviceList.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> new JBLabel(value.first + "." + value.second));
+//        _deviceList.setDataProvider(new DataProvider() {
+//            @Nullable
+//            @Override
+//            public Object getData(@NonNls String dataId) {
+//                ArrayList<Pair<String, String>> data = new ArrayList<>();
+//
+//                for (var portName : SerialPortWrapper.getSerialPorts()) {
+//                    data.add(new Pair<>(portName, "DeviceType_" + dataId));
+//                }
+//
+//                return data;
+//            }
+//        });
+
+        var t = new Thread(() -> {
+            while (true) {
+                var data = new ArrayList<Pair<String, String>>();
+                for (var portName : SerialPortWrapper.getSerialPorts()) {
+                    data.add(new Pair<>(portName, "DeviceType"));
+                }
+
+                _deviceList.setListData(new Vector<>(data));
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                }
+            }
+        });
+
+        t.start();
 
         contentPanel.add(_deviceList, BorderLayout.PAGE_START);
     }
