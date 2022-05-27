@@ -1,6 +1,6 @@
-package com.nanoFramework.plugin.rider.esp32;
+package com.nanoframework.plugin.rider.esp32;
 
-import com.nanoFramework.plugin.rider.device.IDeployer;
+import com.nanoframework.plugin.rider.device.IDeployer;
 
 public class Esp32Deployer implements IDeployer {
     @Override

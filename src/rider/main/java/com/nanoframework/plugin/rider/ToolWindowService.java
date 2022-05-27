@@ -1,4 +1,4 @@
-package com.nanoFramework.plugin.rider;
+package com.nanoframework.plugin.rider;
 
 public class ToolWindowService {
 

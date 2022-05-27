@@ -1,4 +1,4 @@
-package com.nanoFramework.plugin.rider;
+package com.nanoframework.plugin.rider;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;

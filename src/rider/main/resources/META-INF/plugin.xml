@@ -13,8 +13,8 @@
     </description>
 
     <actions>
-        <action id="com.nanoFramework.plugin.rider.DeployAction"
-                class="com.nanoFramework.plugin.rider.DeployAction"
+        <action id="DeployAction"
+                class="com.nanoframework.plugin.rider.DeployAction"
                 text="Deploy to Device">
             <add-to-group group-id="ExternalSystem.Actions" anchor="last"/>
         </action>
@@ -22,9 +22,9 @@
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow
                 id="NFToolWindow"
-                factoryClass="com.nanoFramework.plugin.rider.NFToolWindowFactory"
+                factoryClass="com.nanoframework.plugin.rider.NFToolWindowFactory"
                 anchor="right"/>
         <applicationService
-                serviceImplementation="com.nanoFramework.plugin.rider.ToolWindowService"/>
+                serviceImplementation="com.nanoframework.plugin.rider.ToolWindowService"/>
     </extensions>
 </idea-plugin>

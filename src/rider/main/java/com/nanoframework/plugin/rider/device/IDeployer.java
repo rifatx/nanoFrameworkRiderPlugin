@@ -1,4 +1,4 @@
-package com.nanoFramework.plugin.rider.device;
+package com.nanoframework.plugin.rider.device;
 
 public interface IDeployer {
     void Deploy(byte[] image);

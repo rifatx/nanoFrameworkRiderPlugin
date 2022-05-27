@@ -1,4 +1,4 @@
-package com.nanoFramework.plugin.rider;
+package com.nanoframework.plugin.rider;
 
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
@@ -20,7 +20,7 @@ public class NFToolWindow extends SimpleToolWindowPanel {
 
         final var actionManager = ActionManager.getInstance();
         var actionGroup = new DefaultActionGroup("ACTION_GROUP", false);
-        actionGroup.add(ActionManager.getInstance().getAction("com.nanoFramework.plugin.rider.DeployAction"));
+        actionGroup.add(ActionManager.getInstance().getAction("DeployAction"));
         var actionToolbar = actionManager.createActionToolbar("ACTION_TOOLBAR", actionGroup, true);
         actionToolbar.setOrientation(SwingConstants.HORIZONTAL);
 //        this.setToolbar(actionToolbar.getComponent());
