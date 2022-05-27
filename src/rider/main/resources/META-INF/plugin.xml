@@ -1,0 +1,31 @@
+<idea-plugin require-restart="true">
+    <id>com.jetbrains.rider.plugins.nanoframeworkplugin</id>
+    <name>nanoFrameworkPlugin</name>
+    <version>_PLACEHOLDER_</version>
+    <vendor url="https://project-url">Author</vendor>
+    <idea-version since-build="210" until-build="299.*"/>
+    <depends>com.intellij.modules.rider</depends>
+
+    <description>
+        <![CDATA[
+<p>A Rider plugin used to monitor serial ports for nanoFramework devices and deploy generated binaries</p>
+]]>
+    </description>
+
+    <actions>
+        <action id="com.nanoFramework.plugin.rider.DeployAction"
+                class="com.nanoFramework.plugin.rider.DeployAction"
+                text="Deploy to Device">
+            <add-to-group group-id="ExternalSystem.Actions" anchor="last"/>
+        </action>
+    </actions>
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow
+                id="NFToolWindow"
+                factoryClass="com.nanoFramework.plugin.rider.NFToolWindowFactory"
+                anchor="right"/>
+        <applicationService
+                serviceInterface="com.nanoFramework.plugin.rider.ProjectService"
+                serviceImplementation="com.nanoFramework.plugin.rider.ProjectService"/>
+    </extensions>
+</idea-plugin>
