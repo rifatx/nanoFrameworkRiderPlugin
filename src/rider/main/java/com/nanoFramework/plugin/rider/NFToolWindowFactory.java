@@ -11,7 +11,7 @@ public class NFToolWindowFactory implements ToolWindowFactory {
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         var nftw=new NFToolWindow(toolWindow);
         var ps=ApplicationManager.getApplication()
-                .getService(ProjectService.class);
+                .getService(ToolWindowService.class);
         ps.setToolWindow(nftw);
         var component = toolWindow.getComponent();
         component.getParent().add(nftw.getComponent());

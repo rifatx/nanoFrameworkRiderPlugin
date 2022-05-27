@@ -25,7 +25,6 @@
                 factoryClass="com.nanoFramework.plugin.rider.NFToolWindowFactory"
                 anchor="right"/>
         <applicationService
-                serviceInterface="com.nanoFramework.plugin.rider.ProjectService"
-                serviceImplementation="com.nanoFramework.plugin.rider.ProjectService"/>
+                serviceImplementation="com.nanoFramework.plugin.rider.ToolWindowService"/>
     </extensions>
 </idea-plugin>

@@ -1,6 +1,6 @@
 package com.nanoFramework.plugin.rider;
 
-public class ProjectService {
+public class ToolWindowService {
 
     private NFToolWindow _toolWindow;
 

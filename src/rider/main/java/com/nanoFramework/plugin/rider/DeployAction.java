@@ -10,7 +10,7 @@ public class DeployAction extends AnAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
         var ps = ApplicationManager.getApplication()
-                .getService(ProjectService.class);
+                .getService(ToolWindowService.class);
         var nftw = ps.getToolWindow();
         Messages.showMessageDialog(
                 event.getProject(),
