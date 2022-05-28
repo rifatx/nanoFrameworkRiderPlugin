@@ -16,7 +16,6 @@
         <action id="DeployAction"
                 class="com.nanoframework.plugin.rider.DeployAction"
                 text="Deploy to Device">
-            <add-to-group group-id="ExternalSystem.Actions" anchor="last"/>
         </action>
     </actions>
     <extensions defaultExtensionNs="com.intellij">
