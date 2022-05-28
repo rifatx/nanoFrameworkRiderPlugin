@@ -5,9 +5,13 @@ import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.openapi.wm.ToolWindowManager;
+import com.intellij.openapi.wm.ex.ToolWindowManagerEx;
+import com.intellij.openapi.wm.ex.ToolWindowManagerListener;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBList;
 import com.nanoframework.plugin.rider.serial.SerialPortWrapper;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,17 +19,25 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 public class NFToolWindow extends SimpleToolWindowPanel {
+    static final String NF_TOOL_WINDOW_ID = "NFToolWindow";
+
     private final JBList<Pair<String, String>> _deviceList;
+    private Thread _portMonitorThread;
 
     public NFToolWindow(ToolWindow toolWindow) {
         super(false, true);
+
+        ToolWindowManager manager = ToolWindowManager.getInstance(toolWindow.getProject());
+        if (manager instanceof ToolWindowManagerEx) {
+            ToolWindowManagerEx managerEx = ((ToolWindowManagerEx) manager);
+            managerEx.addToolWindowManagerListener(new NFToolWindowListener(manager, this));
+        }
 
         final var actionManager = ActionManager.getInstance();
         var actionGroup = new DefaultActionGroup("ACTION_GROUP", false);
         actionGroup.add(ActionManager.getInstance().getAction("DeployAction"));
         var actionToolbar = actionManager.createActionToolbar("ACTION_TOOLBAR", actionGroup, true);
         actionToolbar.setOrientation(SwingConstants.HORIZONTAL);
-//        this.setToolbar(actionToolbar.getComponent());
 
         var toolWindowContent = new JPanel();
         toolWindowContent.setLayout(new BorderLayout());
@@ -60,25 +72,19 @@ public class NFToolWindow extends SimpleToolWindowPanel {
         });
         topPanel.add(b3);
 
-
         _deviceList = new JBList<>();
         _deviceList.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> new JBLabel(value.first + "." + value.second));
-//        _deviceList.setDataProvider(new DataProvider() {
-//            @Nullable
-//            @Override
-//            public Object getData(@NonNls String dataId) {
-//                ArrayList<Pair<String, String>> data = new ArrayList<>();
-//
-//                for (var portName : SerialPortWrapper.getSerialPorts()) {
-//                    data.add(new Pair<>(portName, "DeviceType_" + dataId));
-//                }
-//
-//                return data;
-//            }
-//        });
 
-        var t = new Thread(() -> {
-            while (true) {
+        contentPanel.add(_deviceList, BorderLayout.PAGE_START);
+    }
+
+    private void startPortMonitorThread() {
+        if (_portMonitorThread != null && _portMonitorThread.isAlive()) {
+            return;
+        }
+
+        _portMonitorThread = new Thread(() -> {
+            while (!Thread.currentThread().isInterrupted()) {
                 var data = new ArrayList<Pair<String, String>>();
                 for (var portName : SerialPortWrapper.getSerialPorts()) {
                     data.add(new Pair<>(portName, "DeviceType"));
@@ -89,13 +95,24 @@ public class NFToolWindow extends SimpleToolWindowPanel {
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
+                    return;
                 }
             }
         });
 
-        t.start();
+        _portMonitorThread.start();
+    }
 
-        contentPanel.add(_deviceList, BorderLayout.PAGE_START);
+    void startBackgroundThreads() {
+        startPortMonitorThread();
+    }
+
+    void stopBackgroundThreads() {
+        _portMonitorThread.interrupt();
+    }
+
+    public void cleanUp() {
+        stopBackgroundThreads();
     }
 
     public JBList<Pair<String, String>> getDeviceList() {
@@ -104,6 +121,6 @@ public class NFToolWindow extends SimpleToolWindowPanel {
 
     public String getSelectedDevice() {
         var sp = getDeviceList().getSelectedValue();
-        return String.format("%s.%s", sp.first, sp.second);
+        return String.format("%s (%s)", sp.first, sp.second);
     }
 }
