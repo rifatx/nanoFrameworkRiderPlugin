@@ -121,6 +121,10 @@ public class NFToolWindow extends SimpleToolWindowPanel {
 
     public String getSelectedDevice() {
         var sp = getDeviceList().getSelectedValue();
+
+        if (sp == null) {
+            return "<No device selected>";
+        }
         return String.format("%s (%s)", sp.first, sp.second);
     }
 }
