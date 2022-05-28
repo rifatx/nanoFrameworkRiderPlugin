@@ -1,0 +1,20 @@
+{
+  "author": "rifatx",
+  "name": "nanoFramework Application",
+  "description": "An empty  application.",
+  "identity": "NF.ConsoleApp.1.0",
+  "shortName": "nf",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "__NFProject__",
+  "symbols": {
+    "Framework": {
+      "type": "parameter",
+      "description": "The target framework for the project.",
+      "datatype": "choice",
+      "defaultValue": "v1.0"
+    }
+  }
+}
