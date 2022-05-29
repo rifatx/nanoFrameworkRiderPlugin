@@ -28,9 +28,18 @@
                 serviceImplementation="com.nanoframework.plugin.rider.ToolWindowService"/>
 
         <moduleType id="NF_MODULE" implementationClass="com.nanoframework.plugin.rider.module.NFModuleType"/>
+
         <projectTemplate
                 projectType="NF_MODULE"
-                templatePath="projectTemplates/NFTemplate"
+                templatePath="projectTemplates/NFBlankApplicationTemplate"
                 category="true"/>
+        <projectTemplate
+                projectType="NF_MODULE"
+                templatePath="projectTemplates/NFClassLibraryTemplate"
+                category="true"/>
+        <projectTemplate
+            projectType="NF_MODULE"
+            templatePath="projectTemplates/NFUnitTestTemplate"
+            category="true"/>
     </extensions>
 </idea-plugin>

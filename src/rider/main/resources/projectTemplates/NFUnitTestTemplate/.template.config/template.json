@@ -1,0 +1,25 @@
+{
+  "author": "rifatx",
+  "name": "nanoFramework Unit Test",
+  "description": "A nanoFramework unit test project",
+  "identity": "NF.UnitTest.1.0",
+  "shortName": "nf",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "__NFProject__",
+  "symbols": {
+    "Framework": {
+      "type": "parameter",
+      "description": "The target framework for the project.",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "v1.0"
+        }
+      ],
+      "defaultValue": "v1.0"
+    }
+  }
+}

@@ -1,8 +1,8 @@
 {
   "author": "rifatx",
-  "name": "nanoFramework Application",
-  "description": "An empty  application.",
-  "identity": "NF.ConsoleApp.1.0",
+  "name": "nanoFramework Class Library",
+  "description": "An empty nanoFramework class library",
+  "identity": "NF.CLassLib.1.0",
   "shortName": "nf",
   "tags": {
     "language": "C#",
