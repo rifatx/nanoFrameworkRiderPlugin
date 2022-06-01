@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <PackageReference Include="JetBrains.Rider.SDK" Version="$(SdkVersion)" />
+    <PackageReference Include="nanoFramework.Tools.Debugger.Net" Version="2.3.7" />
+    <PackageReference Include="System.IO.Ports" Version="6.0.0" />
   </ItemGroup>
 
   <!-- TODO: uncomment for xaml icons -->
