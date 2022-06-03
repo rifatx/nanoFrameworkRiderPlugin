@@ -12,6 +12,10 @@ public class DeployAction extends AnAction {
         var ps = ApplicationManager.getApplication()
                 .getService(ToolWindowService.class);
         var nftw = ps.getToolWindow();
+
+        ps.getComponent()
+                .sendDeployCommand();
+
         Messages.showMessageDialog(
                 event.getProject(),
                 String.format("action done: %s", nftw.getSelectedDevice()),

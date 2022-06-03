@@ -5,9 +5,10 @@ import com.nanoframework.plugin.rider.protocol.Component;
 
 public class ToolWindowService {
     private NFToolWindow _toolWindow;
+    private Component _component;
 
     public ToolWindowService() {
-        var c = new Component(ProjectManager.getInstance().getOpenProjects()[0]);
+        _component = new Component(ProjectManager.getInstance().getOpenProjects()[0]);
     }
 
     public NFToolWindow getToolWindow() {
@@ -16,5 +17,9 @@ public class ToolWindowService {
 
     void setToolWindow(NFToolWindow toolWindow) {
         this._toolWindow = toolWindow;
+    }
+
+    public Component getComponent(){
+        return _component;
     }
 }

@@ -19,6 +19,7 @@ public class Component
         _nfProtocolModel = solution.GetProtocolSolution().GetNanoFrameworkProtocolModel();
         _serialPortManager = (PortSerialManager) PortBase.CreateInstanceForSerial();
 
+        SetDeployHandler();
         StartModel();
     }
 
@@ -40,7 +41,7 @@ public class Component
         };
     }
 
-    internal void Deploy()
+    internal void SetDeployHandler()
     {
         _nfProtocolModel.Deploy.Set((_, s) =>
             RdTask<string[]>.Successful(new[]

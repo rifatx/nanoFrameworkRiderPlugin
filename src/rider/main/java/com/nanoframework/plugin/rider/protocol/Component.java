@@ -10,16 +10,21 @@ import com.nanoframeworkplugin.rider.protocol.NanoFrameworkProtocolModel_Generat
 import org.jetbrains.annotations.NotNull;
 
 public final class Component extends LifetimedProjectComponent {
+    NanoFrameworkProtocolModel _model;
+
     public Component(@NotNull Project project) {
         super(project);
-        NanoFrameworkProtocolModel model = NanoFrameworkProtocolModel_GeneratedKt.getNanoFrameworkProtocolModel(SolutionHostExtensionsKt.getSolution(project));
+        _model = NanoFrameworkProtocolModel_GeneratedKt.getNanoFrameworkProtocolModel(SolutionHostExtensionsKt.getSolution(project));
+    }
 
-
-//        var v = model
-//                .getDeploy()
-//                .sync(
-//                        new DeployData("", null),
-//                        RpcTimeouts.Companion.getDefault()
-//                );
+    public void sendDeployCommand() {
+        var v = _model
+                .getDeploy()
+                .sync(
+                        new DeployData("", null),
+                        RpcTimeouts.Companion.getDefault()
+                );
+        var x = ";";
     }
 }
+
