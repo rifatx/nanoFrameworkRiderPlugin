@@ -9,6 +9,11 @@ import com.jetbrains.rd.generator.nova.kotlin.Kotlin11Generator
 @Suppress("unused")
 object NanoFrameworkProtocolModel : Ext(SolutionModel.Solution) {
     init {
+        var tDeviceInfo = array(structdef("deviceInfo") {
+            field("portName", string)
+            field("deviceName", string)
+        })
+
         setting(CSharp50Generator.Namespace, "ReSharperPlugin.nanoFrameworkPlugin")
         setting(Kotlin11Generator.Namespace, "com.nanoframeworkplugin.rider.protocol")
 
@@ -34,20 +39,17 @@ object NanoFrameworkProtocolModel : Ext(SolutionModel.Solution) {
         ).async
 
         // Remote procedure on frontend
-        callback(
-            "serialDeviceFound",
-            array(structdef("deviceInfo") {
-                field("portName", string)
-                field("deviceName", string)
-            }),
-            void
-        ).async
+//        callback(
+//            "serialDeviceFound",
+//            tDeviceInfo,
+//            void
+//        ).async
 
 //        // Event on backend
 //        sink("sink", string).async
 //
-//        // Event on frontend
-//        source("source", string).async
+        // Event on frontend
+        source("serialDeviceFoundEvent", tDeviceInfo).async
 //
 //        // Bidirectional event
 //        signal("signal", string)

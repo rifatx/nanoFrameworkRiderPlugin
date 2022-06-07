@@ -10,9 +10,9 @@ public class NFToolWindowFactory implements ToolWindowFactory {
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         var nftw=new NFToolWindow(toolWindow);
-        var ps=ApplicationManager.getApplication()
+        var tws=ApplicationManager.getApplication()
                 .getService(ToolWindowService.class);
-        ps.setToolWindow(nftw);
+        tws.setToolWindow(nftw);
         var component = toolWindow.getComponent();
         component.getParent().add(nftw.getComponent());
     }

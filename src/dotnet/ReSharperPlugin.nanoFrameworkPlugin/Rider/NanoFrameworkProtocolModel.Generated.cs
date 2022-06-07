@@ -44,40 +44,40 @@ namespace ReSharperPlugin.nanoFrameworkPlugin
     //public fields
     [NotNull] public IViewableProperty<CustomPropType> SomeProperty => _SomeProperty;
     [NotNull] public IRdEndpoint<DeployData, string[]> Deploy => _Deploy;
-    [NotNull] public IRdCall<DeviceInfo[], Unit> SerialDeviceFound => _SerialDeviceFound;
+    [NotNull] public ISignal<DeviceInfo[]> SerialDeviceFoundEvent => _SerialDeviceFoundEvent;
     
     //private fields
     [NotNull] private readonly RdProperty<CustomPropType> _SomeProperty;
     [NotNull] private readonly RdCall<DeployData, string[]> _Deploy;
-    [NotNull] private readonly RdCall<DeviceInfo[], Unit> _SerialDeviceFound;
+    [NotNull] private readonly RdSignal<DeviceInfo[]> _SerialDeviceFoundEvent;
     
     //primary constructor
     private NanoFrameworkProtocolModel(
       [NotNull] RdProperty<CustomPropType> someProperty,
       [NotNull] RdCall<DeployData, string[]> deploy,
-      [NotNull] RdCall<DeviceInfo[], Unit> serialDeviceFound
+      [NotNull] RdSignal<DeviceInfo[]> serialDeviceFoundEvent
     )
     {
       if (someProperty == null) throw new ArgumentNullException("someProperty");
       if (deploy == null) throw new ArgumentNullException("deploy");
-      if (serialDeviceFound == null) throw new ArgumentNullException("serialDeviceFound");
+      if (serialDeviceFoundEvent == null) throw new ArgumentNullException("serialDeviceFoundEvent");
       
       _SomeProperty = someProperty;
       _Deploy = deploy;
-      _SerialDeviceFound = serialDeviceFound;
+      _SerialDeviceFoundEvent = serialDeviceFoundEvent;
       _SomeProperty.OptimizeNested = true;
       _Deploy.Async = true;
-      _SerialDeviceFound.Async = true;
+      _SerialDeviceFoundEvent.Async = true;
       BindableChildren.Add(new KeyValuePair<string, object>("someProperty", _SomeProperty));
       BindableChildren.Add(new KeyValuePair<string, object>("deploy", _Deploy));
-      BindableChildren.Add(new KeyValuePair<string, object>("serialDeviceFound", _SerialDeviceFound));
+      BindableChildren.Add(new KeyValuePair<string, object>("serialDeviceFoundEvent", _SerialDeviceFoundEvent));
     }
     //secondary constructor
     internal NanoFrameworkProtocolModel (
     ) : this (
       new RdProperty<CustomPropType>(CustomPropType.Read, CustomPropType.Write),
       new RdCall<DeployData, string[]>(DeployData.Read, DeployData.Write, ReadStringArray, WriteStringArray),
-      new RdCall<DeviceInfo[], Unit>(ReadDeviceInfoArray, WriteDeviceInfoArray, JetBrains.Rd.Impl.Serializers.ReadVoid, JetBrains.Rd.Impl.Serializers.WriteVoid)
+      new RdSignal<DeviceInfo[]>(ReadDeviceInfoArray, WriteDeviceInfoArray)
     ) {}
     //deconstruct trait
     //statics
@@ -88,7 +88,7 @@ namespace ReSharperPlugin.nanoFrameworkPlugin
     public static  CtxWriteDelegate<string[]> WriteStringArray = JetBrains.Rd.Impl.Serializers.WriteString.Array();
     public static  CtxWriteDelegate<DeviceInfo[]> WriteDeviceInfoArray = DeviceInfo.Write.Array();
     
-    protected override long SerializationHash => 5757355806742605723L;
+    protected override long SerializationHash => 5555914523437289815L;
     
     protected override Action<ISerializers> Register => RegisterDeclaredTypesSerializers;
     public static void RegisterDeclaredTypesSerializers(ISerializers serializers)
@@ -111,7 +111,7 @@ namespace ReSharperPlugin.nanoFrameworkPlugin
       using (printer.IndentCookie()) {
         printer.Print("someProperty = "); _SomeProperty.PrintEx(printer); printer.Println();
         printer.Print("deploy = "); _Deploy.PrintEx(printer); printer.Println();
-        printer.Print("serialDeviceFound = "); _SerialDeviceFound.PrintEx(printer); printer.Println();
+        printer.Print("serialDeviceFoundEvent = "); _SerialDeviceFoundEvent.PrintEx(printer); printer.Println();
       }
       printer.Print(")");
     }
@@ -133,7 +133,7 @@ namespace ReSharperPlugin.nanoFrameworkPlugin
   
   
   /// <summary>
-  /// <p>Generated from: NanoFrameworkProtocolModel.kt:16</p>
+  /// <p>Generated from: NanoFrameworkProtocolModel.kt:21</p>
   /// </summary>
   public sealed class CustomPropType : IPrintable, IEquatable<CustomPropType>
   {
@@ -237,7 +237,7 @@ namespace ReSharperPlugin.nanoFrameworkPlugin
   
   
   /// <summary>
-  /// <p>Generated from: NanoFrameworkProtocolModel.kt:28</p>
+  /// <p>Generated from: NanoFrameworkProtocolModel.kt:33</p>
   /// </summary>
   public sealed class DeployData : IPrintable, IEquatable<DeployData>
   {
@@ -332,7 +332,7 @@ namespace ReSharperPlugin.nanoFrameworkPlugin
   
   
   /// <summary>
-  /// <p>Generated from: NanoFrameworkProtocolModel.kt:39</p>
+  /// <p>Generated from: NanoFrameworkProtocolModel.kt:12</p>
   /// </summary>
   public sealed class DeviceInfo : IPrintable, IEquatable<DeviceInfo>
   {

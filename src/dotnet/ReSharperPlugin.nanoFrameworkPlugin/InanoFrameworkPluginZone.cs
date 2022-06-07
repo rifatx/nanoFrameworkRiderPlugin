@@ -7,7 +7,5 @@ namespace ReSharperPlugin.nanoFrameworkPlugin
 {
     [ZoneDefinition]
     // [ZoneDefinitionConfigurableFeature("Title", "Description", IsInProductSection: false)]
-    public interface InanoFrameworkPluginZone : IZone
-    {
-    }
+    public interface InanoFrameworkPluginZone : IZone { }
 }

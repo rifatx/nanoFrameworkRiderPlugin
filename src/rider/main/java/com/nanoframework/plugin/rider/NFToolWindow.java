@@ -10,6 +10,8 @@ import com.intellij.openapi.wm.ex.ToolWindowManagerEx;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBList;
 import com.nanoframework.plugin.rider.serial.SerialPortWrapper;
+import com.nanoframeworkplugin.rider.protocol.DeviceInfo;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -24,11 +26,11 @@ public class NFToolWindow extends SimpleToolWindowPanel {
     public NFToolWindow(ToolWindow toolWindow) {
         super(false, true);
 
-        ToolWindowManager manager = ToolWindowManager.getInstance(toolWindow.getProject());
-        if (manager instanceof ToolWindowManagerEx) {
-            ToolWindowManagerEx managerEx = ((ToolWindowManagerEx) manager);
-            managerEx.addToolWindowManagerListener(new NFToolWindowListener(manager, this));
-        }
+//        ToolWindowManager manager = ToolWindowManager.getInstance(toolWindow.getProject());
+//        if (manager instanceof ToolWindowManagerEx) {
+//            ToolWindowManagerEx managerEx = ((ToolWindowManagerEx) manager);
+//            managerEx.addToolWindowManagerListener(new NFToolWindowListener(manager, this));
+//        }
 
         final var actionManager = ActionManager.getInstance();
         var actionGroup = new DefaultActionGroup("ACTION_GROUP", false);
@@ -110,6 +112,15 @@ public class NFToolWindow extends SimpleToolWindowPanel {
 
     public void cleanUp() {
         stopBackgroundThreads();
+    }
+
+    public void setDeviceList(DeviceInfo[] devices) {
+        var data = new ArrayList<Pair<String, String>>();
+        for (var d : devices) {
+            data.add(new Pair<>(d.getPortName(), d.getDeviceName()));
+        }
+
+        _deviceList.setListData(new Vector<>(data));
     }
 
     public JBList<Pair<String, String>> getDeviceList() {

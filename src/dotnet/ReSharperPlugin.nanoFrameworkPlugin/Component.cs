@@ -11,13 +11,13 @@ namespace ReSharperPlugin.nanoFrameworkPlugin;
 [SolutionComponent]
 public class Component
 {
-    private readonly NanoFrameworkProtocolModel _nfProtocolModel;
     private readonly PortSerialManager _serialPortManager;
+    private readonly NanoFrameworkProtocolModel _nfProtocolModel;
 
     public Component(Lifetime lifetime, ISolution solution)
     {
-        _nfProtocolModel = solution.GetProtocolSolution().GetNanoFrameworkProtocolModel();
         _serialPortManager = (PortSerialManager) PortBase.CreateInstanceForSerial();
+        _nfProtocolModel = solution.GetProtocolSolution().GetNanoFrameworkProtocolModel();
 
         SetDeployHandler();
         StartModel();
@@ -25,20 +25,19 @@ public class Component
 
     private void StartModel()
     {
-        _serialPortManager.DeviceEnumerationCompleted += (o, ea) =>
+        _serialPortManager.NanoFrameworkDevices.CollectionChanged += (sender, args) =>
         {
-            if (o is PortSerialManager psm)
-            {
-                _nfProtocolModel
-                    .SerialDeviceFound
-                    .Sync(psm
+            _nfProtocolModel.SerialDeviceFoundEvent
+                .Fire(
+                    _serialPortManager
                         .NanoFrameworkDevices
                         .Where(d => d is NanoDevice<NanoSerialDevice>)
                         .Cast<NanoDevice<NanoSerialDevice>>()
                         .Select(d => new DeviceInfo(d.DeviceId, d.TargetName))
                         .ToArray());
-            }
         };
+
+        _serialPortManager.StartDeviceWatchers();
     }
 
     internal void SetDeployHandler()

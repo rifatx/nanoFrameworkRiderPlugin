@@ -20,16 +20,16 @@ import kotlin.jvm.JvmStatic
 class NanoFrameworkProtocolModel private constructor(
     private val _someProperty: RdOptionalProperty<CustomPropType>,
     private val _deploy: RdCall<DeployData, Array<String>>,
-    private val _serialDeviceFound: RdCall<Array<DeviceInfo>, Unit>
+    private val _serialDeviceFoundEvent: RdSignal<Array<DeviceInfo>>
 ) : RdExtBase() {
     //companion
     
     companion object : ISerializersOwner {
         
         override fun registerSerializersCore(serializers: ISerializers)  {
+            serializers.register(DeviceInfo)
             serializers.register(CustomPropType)
             serializers.register(DeployData)
-            serializers.register(DeviceInfo)
         }
         
         
@@ -38,7 +38,7 @@ class NanoFrameworkProtocolModel private constructor(
         private val __StringArraySerializer = FrameworkMarshallers.String.array()
         private val __DeviceInfoArraySerializer = DeviceInfo.array()
         
-        const val serializationHash = 5757355806742605723L
+        const val serializationHash = 5555914523437289815L
         
     }
     override val serializersOwner: ISerializersOwner get() = NanoFrameworkProtocolModel
@@ -47,7 +47,7 @@ class NanoFrameworkProtocolModel private constructor(
     //fields
     val someProperty: IOptProperty<CustomPropType> get() = _someProperty
     val deploy: IRdCall<DeployData, Array<String>> get() = _deploy
-    val serialDeviceFound: IRdEndpoint<Array<DeviceInfo>, Unit> get() = _serialDeviceFound
+    val serialDeviceFoundEvent: IAsyncSignal<Array<DeviceInfo>> get() = _serialDeviceFoundEvent
     //methods
     //initializer
     init {
@@ -56,13 +56,13 @@ class NanoFrameworkProtocolModel private constructor(
     
     init {
         _deploy.async = true
-        _serialDeviceFound.async = true
+        _serialDeviceFoundEvent.async = true
     }
     
     init {
         bindableChildren.add("someProperty" to _someProperty)
         bindableChildren.add("deploy" to _deploy)
-        bindableChildren.add("serialDeviceFound" to _serialDeviceFound)
+        bindableChildren.add("serialDeviceFoundEvent" to _serialDeviceFoundEvent)
     }
     
     //secondary constructor
@@ -70,7 +70,7 @@ class NanoFrameworkProtocolModel private constructor(
     ) : this(
         RdOptionalProperty<CustomPropType>(CustomPropType),
         RdCall<DeployData, Array<String>>(DeployData, __StringArraySerializer),
-        RdCall<Array<DeviceInfo>, Unit>(__DeviceInfoArraySerializer, FrameworkMarshallers.Void)
+        RdSignal<Array<DeviceInfo>>(__DeviceInfoArraySerializer)
     )
     
     //equals trait
@@ -81,7 +81,7 @@ class NanoFrameworkProtocolModel private constructor(
         printer.indent {
             print("someProperty = "); _someProperty.print(printer); println()
             print("deploy = "); _deploy.print(printer); println()
-            print("serialDeviceFound = "); _serialDeviceFound.print(printer); println()
+            print("serialDeviceFoundEvent = "); _serialDeviceFoundEvent.print(printer); println()
         }
         printer.print(")")
     }
@@ -90,7 +90,7 @@ class NanoFrameworkProtocolModel private constructor(
         return NanoFrameworkProtocolModel(
             _someProperty.deepClonePolymorphic(),
             _deploy.deepClonePolymorphic(),
-            _serialDeviceFound.deepClonePolymorphic()
+            _serialDeviceFoundEvent.deepClonePolymorphic()
         )
     }
     //contexts
@@ -100,7 +100,7 @@ val com.jetbrains.rd.ide.model.Solution.nanoFrameworkProtocolModel get() = getOr
 
 
 /**
- * #### Generated from [NanoFrameworkProtocolModel.kt:16]
+ * #### Generated from [NanoFrameworkProtocolModel.kt:21]
  */
 data class CustomPropType (
     val someString: String,
@@ -169,7 +169,7 @@ data class CustomPropType (
 
 
 /**
- * #### Generated from [NanoFrameworkProtocolModel.kt:28]
+ * #### Generated from [NanoFrameworkProtocolModel.kt:33]
  */
 data class DeployData (
     val basePath: String,
@@ -232,7 +232,7 @@ data class DeployData (
 
 
 /**
- * #### Generated from [NanoFrameworkProtocolModel.kt:39]
+ * #### Generated from [NanoFrameworkProtocolModel.kt:12]
  */
 data class DeviceInfo (
     val portName: String,

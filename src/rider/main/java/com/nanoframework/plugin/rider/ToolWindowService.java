@@ -9,6 +9,7 @@ public class ToolWindowService {
 
     public ToolWindowService() {
         _component = new Component(ProjectManager.getInstance().getOpenProjects()[0]);
+
     }
 
     public NFToolWindow getToolWindow() {
