@@ -5,11 +5,8 @@ import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.wm.ToolWindow;
-import com.intellij.openapi.wm.ToolWindowManager;
-import com.intellij.openapi.wm.ex.ToolWindowManagerEx;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBList;
-import com.nanoframework.plugin.rider.serial.SerialPortWrapper;
 import com.nanoframeworkplugin.rider.protocol.DeviceInfo;
 
 import javax.swing.*;
@@ -75,43 +72,6 @@ public class NFToolWindow extends SimpleToolWindowPanel {
         _deviceList.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> new JBLabel(value.first + "." + value.second));
 
         contentPanel.add(_deviceList, BorderLayout.PAGE_START);
-    }
-
-    private void startPortMonitorThread() {
-        if (_portMonitorThread != null && _portMonitorThread.isAlive()) {
-            return;
-        }
-
-        _portMonitorThread = new Thread(() -> {
-            while (!Thread.currentThread().isInterrupted()) {
-                var data = new ArrayList<Pair<String, String>>();
-                for (var portName : SerialPortWrapper.getSerialPorts()) {
-                    data.add(new Pair<>(portName, "DeviceType"));
-                }
-
-                _deviceList.setListData(new Vector<>(data));
-
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    return;
-                }
-            }
-        });
-
-        _portMonitorThread.start();
-    }
-
-    void startBackgroundThreads() {
-        startPortMonitorThread();
-    }
-
-    void stopBackgroundThreads() {
-        _portMonitorThread.interrupt();
-    }
-
-    public void cleanUp() {
-        stopBackgroundThreads();
     }
 
     public void setDeviceList(DeviceInfo[] devices) {
