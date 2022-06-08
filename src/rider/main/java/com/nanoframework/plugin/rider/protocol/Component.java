@@ -28,7 +28,7 @@ public final class Component extends LifetimedProjectComponent {
                         new DeployData("", null),
                         RpcTimeouts.Companion.getDefault()
                 );
-        var x = ";";
+        System.out.println(String.join(",", v));
     }
 
     public void initCallbacks() {
