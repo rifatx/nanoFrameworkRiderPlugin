@@ -180,7 +180,8 @@ prepareSandbox {
     def dllFiles = [
             "$outputFolder/${DotnetPluginId}.dll",
             "$outputFolder/${DotnetPluginId}.pdb",
-            // TODO: add additional assemblies
+            "$outputFolder/Polly.dll",
+            "$outputFolder/nanoFramework.Tools.Debugger.Net.dll"
     ]
 
     dllFiles.forEach({ f ->
