@@ -27,6 +27,9 @@
         <applicationService
                 serviceImplementation="com.nanoframework.plugin.rider.ToolWindowService"/>
 
+        <fileType name="nfproj" language="MSBuild" extensions="nfproj"
+                  implementationClass="com.nanoframework.plugin.rider.file.NFProjectFileType"/>
+
         <moduleType id="NF_MODULE" implementationClass="com.nanoframework.plugin.rider.module.NFModuleType"/>
 
         <projectTemplate
@@ -38,8 +41,8 @@
                 templatePath="projectTemplates/NFClassLibraryTemplate"
                 category="true"/>
         <projectTemplate
-            projectType="NF_MODULE"
-            templatePath="projectTemplates/NFUnitTestTemplate"
-            category="true"/>
+                projectType="NF_MODULE"
+                templatePath="projectTemplates/NFUnitTestTemplate"
+                category="true"/>
     </extensions>
 </idea-plugin>
