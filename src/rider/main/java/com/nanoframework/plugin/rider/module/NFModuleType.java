@@ -2,7 +2,6 @@ package com.nanoframework.plugin.rider.module;
 
 import com.intellij.openapi.module.ModuleType;
 import com.intellij.openapi.module.ModuleTypeManager;
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -10,8 +9,8 @@ import javax.swing.*;
 public class NFModuleType extends ModuleType<NFModuleBuilder> {
     public static final String ID = "NF_MODULE";
 
-    protected NFModuleType(@NotNull @NonNls String id) {
-        super(id);
+    protected NFModuleType() {
+        super(ID);
     }
 
     public static NFModuleType getInstance() {
