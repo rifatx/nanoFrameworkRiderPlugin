@@ -48,5 +48,8 @@
                 category="true"/>
 
         <postStartupActivity implementation="com.nanoframework.plugin.rider.init.BuildToolInstallerActivity"/>
+
+        <notificationGroup id="BuildToolUtilsNotificationGroup"
+                           displayType="BALLOON"/>
     </extensions>
 </idea-plugin>

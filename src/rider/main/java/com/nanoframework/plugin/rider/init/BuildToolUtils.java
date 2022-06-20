@@ -1,5 +1,6 @@
 package com.nanoframework.plugin.rider.init;
 
+import com.intellij.notification.*;
 import com.intellij.openapi.project.Project;
 import com.jetbrains.rider.projectView.SolutionHostExtensionsKt;
 import com.nanoframework.plugin.rider.util.ZipUtils;
@@ -10,6 +11,7 @@ import java.io.File;
 public class BuildToolUtils {
     private static final String ZIP_LOCATION = "buildTools/nanoFramework.zip";
     private static final String NF_TOOL_DIRECTORY_NAME = "nanoFramework";
+    private static final String NOTIFICATION_GROUP = "BuildToolUtilsNotificationGroup";
 
     private final Project _project;
     private final String _msBuildRootPath;
@@ -34,8 +36,20 @@ public class BuildToolUtils {
         return false;
     }
 
-    public void install() {
-        ZipUtils.unzip(ZIP_LOCATION, _msBuildRootPath);
+    public boolean install() {
+        try {
+            ZipUtils.unzip(ZIP_LOCATION, _msBuildRootPath);
+        } catch (Exception ex) {
+            NotificationGroupManager.getInstance()
+                    .getNotificationGroup(NOTIFICATION_GROUP)
+                    .createNotification(
+                            "nanoFramework",
+                            String.format("Unable to install nanoFramework build tools to %s.\nErr: %s", _msBuildRootPath, ex), NotificationType.ERROR)
+                    .notify(_project);
+            return false;
+        }
+
+        return true;
     }
 
     private String setMsBuildRoot(String msBuildPath) {
