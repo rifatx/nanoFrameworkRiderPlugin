@@ -11,7 +11,9 @@ public class BuildToolInstallerActivity implements StartupActivity {
     public void runActivity(@NotNull Project project) {
         var btu = project.getService(BuildToolUtils.class);
 
-        if (!btu.toolsExist() && btu.install()) {
+        if (btu.msBuildFolderFound()
+                && !btu.toolsExist()
+                && btu.install()) {
             ProjectUtils.reloadProjects(project);
         }
     }

@@ -27,6 +27,10 @@ public class BuildToolUtils {
         _msBuildRootPath = setMsBuildRoot(msBuildPath);
     }
 
+    public boolean msBuildFolderFound() {
+        return _msBuildRootPath != null && !_msBuildRootPath.isBlank();
+    }
+
     public boolean toolsExist() {
         var f = new File(_msBuildRootPath);
 
