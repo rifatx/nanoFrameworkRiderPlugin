@@ -18,7 +18,6 @@ public class BuildToolUtils {
     private final String _msBuildRootPath;
 
     public BuildToolUtils(@NotNull Project project) {
-
         _project = project;
 
         var msBuildPath = SolutionHostExtensionsKt.getSolution(project)
