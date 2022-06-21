@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 
 public class BuildToolUtils {
+    private static final String MSBUILD_MARKER_FOLDER = "Current";
     private static final String ZIP_LOCATION = "buildTools/nanoFramework.zip";
     private static final String NF_TOOL_DIRECTORY_NAME = "nanoFramework";
     private static final String NOTIFICATION_GROUP = "BuildToolUtilsNotificationGroup";
@@ -63,8 +64,14 @@ public class BuildToolUtils {
             f = f.getParentFile();
         }
 
-        while (f.list((dir, name) -> dir.isDirectory() && name.equals("Current")).length < 1) {
+        while (f != null
+                && f.isDirectory()
+                && f.list((dir, name) -> dir.isDirectory() && name.equalsIgnoreCase(MSBUILD_MARKER_FOLDER)).length < 1) {
             f = f.getParentFile();
+        }
+
+        if (f == null) {
+            return null;
         }
 
         return f.getAbsolutePath();
